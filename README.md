@@ -33,6 +33,7 @@ docker build -t my-nodejs-app -f nodejs.Dockerfile .
 The following Dockerfiles are available in this repository:
 
 - [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this in an [Astro project](https://docs.astro.build/en/getting-started/).
+- [Golang](golang.Dockerfile) - A minimal Go Dockerfile with multi-stage build that works with Go modules. We tested this in a [Fiber project](https://gofiber.io/).
 
 ## Contributing
 

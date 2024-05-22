@@ -9,6 +9,7 @@ FROM node:${VERSION}-slim AS base
 # Enables pnpm and yarn
 RUN corepack enable
 
+
 # Install the necessary dependencies for the application. This is done in a separate
 # stage so that the dependencies are cached and not re-installed on every build.
 FROM base AS build-deps
@@ -23,6 +24,7 @@ RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f pnpm-lock.yaml ]; then pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
+
 
 # Runtime dependencies are installed in a separate stage so that development
 # dependencies are not included in the final image. This reduces the size of the
@@ -39,6 +41,7 @@ RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile --production; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+
 # This is the final stage of the build process. It copies the application code
 # and builds the application.
 FROM base AS builder
@@ -47,6 +50,7 @@ COPY --from=build-deps /app/node_modules* ./node_modules
 COPY . .
 ENV NODE_ENV=production
 RUN npm run build
+
 
 # This stage creates the final image that will be used in production. It copies
 # the application code and the runtime dependencies from the previous stages.
@@ -73,10 +77,11 @@ COPY --chown=nonroot:nonroot --from=builder /app/dist ./dist
 
 USER nonroot:nonroot
 
-# Expose the port that the application will run on
-EXPOSE 8080
 # Set the port that the application will run on
 ENV PORT=8080
+# Expose the port that the application will run on
+EXPOSE ${PORT}
+
 ENV NODE_ENV=production
 # Change this to the command that starts the production application
 CMD npm run preview -- --host 0.0.0.0 --port ${PORT}
