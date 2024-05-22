@@ -32,7 +32,7 @@ docker build -t my-nodejs-app -f nodejs.Dockerfile .
 
 The following Dockerfiles are available in this repository:
 
-- [Node.js](nodejs.Dockerfile)
+- [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this against an [Astro project](https://docs.astro.build/en/getting-started/).
 
 ## Contributing
 
