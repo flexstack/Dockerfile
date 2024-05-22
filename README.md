@@ -16,3 +16,38 @@ aims to provide a collection of example Dockerfiles for different programming la
 own projects.
 
 We hope you find them useful! If you have any suggestions or improvements, please feel free to open an issue or pull request.
+
+## Usage
+
+Each Dockerfile in this repository is designed to be a starting point for your own projects. They are intended to be copied and modified
+to suit your specific requirements. To use a Dockerfile, simply copy it into your project directory and build it using the `docker build` command.
+
+For example, to build the `nodejs.Dockerfile`:
+
+```bash
+docker build -t my-nodejs-app -f nodejs.Dockerfile .
+```
+
+## Languages and Frameworks
+
+The following Dockerfiles are available in this repository:
+
+- [Node.js](nodejs.Dockerfile)
+
+## Contributing
+
+If you have a Dockerfile that you would like to contribute, please feel free to open a pull request. We welcome contributions for any programming language or framework, as long as they follow the guidelines below:
+
+- Should be well-commented and easy to understand.
+- Should be as minimal as possible, while still being functional.
+- Should follow best practices for security, performance, and maintainability.
+- Should be tested and working with the latest version of the language or framework.
+- Should use multi-stage builds where appropriate.
+- Should be based on an official Docker image where possible.
+
+Read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to contribute.
+
+## License
+
+This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+
