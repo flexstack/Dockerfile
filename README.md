@@ -32,8 +32,10 @@ docker build -t my-nodejs-app -f nodejs.Dockerfile .
 
 The following Dockerfiles are available in this repository:
 
-- [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this in an [Astro project](https://docs.astro.build/en/getting-started/).
 - [Golang](golang.Dockerfile) - A minimal Go Dockerfile with multi-stage build that works with Go modules. We tested this in a [Fiber project](https://gofiber.io/).
+- [Next.js](nextjs.Dockerfile) - A Next.js Dockerfile with multi-stage build that works with Yarn, PNPM, Bun, or NPM package managers. We tested this in a [Next.js project](https://nextjs.org/). This Dockerfile is designed to run the Next.js server in production mode.
+- [Next.js w/ standalone output](nextjs-standalone.Dockerfile) - A Next.js Dockerfile with multi-stage build that works with Yarn, PNPM, Bun, or NPM package managers. We tested this in a [Next.js project](https://nextjs.org/). This Dockerfile is designed to build the Next.js project and served with a [`standalone` output](https://nextjs.org/docs/pages/api-reference/next-config-js/output#automatically-copying-traced-files).
+- [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this in an [Astro project](https://docs.astro.build/en/getting-started/).
 
 ## Contributing
 

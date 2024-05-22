@@ -23,7 +23,7 @@ RUN if [ -f go.mod ]; then go mod download && go mod tidy; fi
 
 # This is the final stage of the build process. It copies the application code,
 #  then builds the application.
-FROM deps AS build
+FROM deps AS builder
 WORKDIR /go/src/app
 
 COPY . .
@@ -58,7 +58,7 @@ RUN addgroup --system nonroot && adduser --system --ingroup nonroot nonroot
 RUN chown -R nonroot:nonroot /app
 
 # Copy the application from the build stage to the final stage
-COPY --chown=nonroot:nonroot --from=build /go/bin/app .
+COPY --chown=nonroot:nonroot --from=builder /go/bin/app .
 
 USER nonroot:nonroot
 
