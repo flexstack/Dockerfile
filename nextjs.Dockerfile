@@ -50,8 +50,9 @@ FROM base AS builder
 
 ENV NODE_ENV=production
 WORKDIR /app
-COPY --from=build-deps /app/node_modules ./node_modules
 COPY . .
+RUN rm -rf node_modules
+COPY --from=build-deps /app/node_modules ./node_modules
 RUN if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
   elif [ -f bun.lockb ]; then bun run build; \

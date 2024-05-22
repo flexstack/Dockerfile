@@ -35,8 +35,9 @@ RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
 # and builds the application.
 FROM base AS builder
 WORKDIR /app
-COPY --from=build-deps /app/node_modules ./node_modules
 COPY . .
+RUN rm -rf node_modules
+COPY --from=build-deps /app/node_modules ./node_modules
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

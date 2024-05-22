@@ -46,8 +46,9 @@ RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile --production; \
 # and builds the application.
 FROM base AS builder
 WORKDIR /app
-COPY --from=build-deps /app/node_modules* ./node_modules
 COPY . .
+RUN rm -rf node_modules
+COPY --from=build-deps /app/node_modules* ./node_modules
 ENV NODE_ENV=production
 RUN npm run build
 
