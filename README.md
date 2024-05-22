@@ -1,6 +1,6 @@
 # Dockerfile
 
-A collection of example Dockerfiles for different programming languages and frameworks.
+A collection of *high quality* Dockerfiles for different programming languages and frameworks.
 
 [Check out `new-dockerfile`](https://github.com/flexstack/new-dockerfile) for a tool to generate Dockerfiles for your projects.
 
@@ -32,7 +32,7 @@ docker build -t my-nodejs-app -f nodejs.Dockerfile .
 
 The following Dockerfiles are available in this repository:
 
-- [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this against an [Astro project](https://docs.astro.build/en/getting-started/).
+- [Node.js](nodejs.Dockerfile) - A simple Node.js Dockerfile with multi-stage build that works with Yarn, PNPM, or NPM package managers. We tested this in an [Astro project](https://docs.astro.build/en/getting-started/).
 
 ## Contributing
 
@@ -40,7 +40,7 @@ If you have a Dockerfile that you would like to contribute, please feel free to 
 
 - Should be well-commented and easy to understand.
 - Should be as minimal as possible, while still being functional.
-- Should follow best practices for security, performance, and maintainability.
+- Should follow best practices for security (non-root user, etc.), performance (cached stages), and maintainability.
 - Should be tested and working with the latest version of the language or framework.
 - Should use multi-stage builds where appropriate.
 - Should be based on an official Docker image where possible.

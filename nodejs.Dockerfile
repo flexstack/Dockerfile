@@ -48,9 +48,15 @@ COPY . .
 ENV NODE_ENV=production
 RUN npm run build
 
+# This stage creates the final image that will be used in production. It copies
+# the application code and the runtime dependencies from the previous stages.
+# Then it sets the user to run the application and the command to start the
+# application.
 FROM base AS runtime
 WORKDIR /app
 
+# Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size. 
+# e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
 RUN apt-get update && apt-get install -y --no-install-recommends wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
 # Use a non-root user to run the application. This is a security best practice.
 RUN addgroup --system nonroot && adduser --disabled-login --ingroup nonroot nonroot
@@ -61,9 +67,9 @@ RUN chown -R nonroot:nonroot /app
 
 # Copy the application code and the runtime dependencies from the previous stage.
 # You should change "dist" to the directory where your build output is located.
+COPY --chown=nonroot:nonroot --from=runtime-deps /app/package.json ./package.json
 COPY --chown=nonroot:nonroot --from=runtime-deps /app/node_modules* ./node_modules
 COPY --chown=nonroot:nonroot --from=builder /app/dist ./dist
-COPY --chown=nonroot:nonroot --from=builder /app/package.json ./package.json
 
 USER nonroot:nonroot
 
