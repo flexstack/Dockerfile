@@ -14,15 +14,6 @@ COPY package.json bun.lockb ./
 RUN bun install
 
 
-# Runtime dependencies are installed in a separate stage so that development
-# dependencies are not included in the final image. This reduces the size of the
-# final image.
-FROM base AS runtime-deps
-WORKDIR /app
-COPY package.json bun.lockb ./
-RUN bun install --production
-
-
 # This is the final stage of the build process. It copies the application code
 # and builds the application.
 FROM base AS builder
@@ -38,14 +29,15 @@ RUN bun build index.ts --outfile dist/index.js
 # the application code and the runtime dependencies from the previous stages.
 FROM oven/bun:${VERSION}-alpine AS runtime
 WORKDIR /app
+# Install ca-certificates to allow the application to make HTTPS requests
+RUN apk --update --no-cache add ca-certificates \
+  && update-ca-certificates 2>/dev/null || true
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size.
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
 RUN apk add --no-cache wget && rm -rf /var/cache/apk/*
 RUN addgroup --system nonroot && adduser --system --ingroup nonroot nonroot
 RUN chown -R nonroot:nonroot /app
 
-# Copy the runtime dependencies from the runtime-deps stage
-COPY --chown=nonroot:nonroot --from=runtime-deps /app/node_modules ./node_modules
 # Copy the application from the build stage to the final stage. 
 # You should change "dist" to the directory where your build output is located.
 COPY --chown=nonroot:nonroot --from=builder /app/dist ./dist

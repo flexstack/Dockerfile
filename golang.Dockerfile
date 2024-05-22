@@ -49,6 +49,9 @@ RUN CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -t
 # reduce the size of the final image.
 FROM alpine:latest AS runtime
 WORKDIR /app
+# Install ca-certificates to allow the application to make HTTPS requests
+RUN apk --update --no-cache add ca-certificates \
+  && update-ca-certificates 2>/dev/null || true
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size.
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
 RUN apk add --no-cache wget && rm -rf /var/cache/apk/*
