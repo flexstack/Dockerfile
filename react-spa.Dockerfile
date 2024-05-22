@@ -42,6 +42,8 @@ FROM joseluisq/static-web-server:2-debian
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size. 
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
 RUN apt-get update && apt-get install -y --no-install-recommends wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+# Copy the application code output from the builder stage to the final image
 COPY --from=builder /app/dist /app
 
 # Set the port that the application will run on
@@ -58,8 +60,7 @@ ENV SERVER_PORT=${PORT}
 ENV SERVER_ROOT=/app
 # Enable a health check endpoint
 ENV SERVER_HEALTH=true
-# When using a SPA with something like React Router, set the fallback page to the 
-# index.html file so that the application can handle the routing
+# When using a SPA, set the fallback page to the index.html file
 ENV SERVER_FALLBACK_PAGE=/app/index.html
 # Ignore hidden files when serving the application
 ENV SERVER_IGNORE_HIDDEN_FILES=true
