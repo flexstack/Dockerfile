@@ -51,7 +51,7 @@ FROM alpine:latest AS runtime
 WORKDIR /app
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size.
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
-RUN apt-get update && apt-get install -y --no-install-recommends wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
+RUN apk add --no-cache wget && rm -rf /var/cache/apk/*
 
 # Use a non-root user to run the application. This is a security best practice.
 RUN addgroup --system nonroot && adduser --system --ingroup nonroot nonroot
