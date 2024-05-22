@@ -70,9 +70,9 @@ RUN mkdir -p /app/.cache
 RUN chown -R nonroot:nonroot /app
 
 # Copy the application code and the runtime dependencies from the previous stage.
-# You should change "dist" to the directory where your build output is located.
 COPY --chown=nonroot:nonroot --from=runtime-deps /app/package.json ./package.json
 COPY --chown=nonroot:nonroot --from=runtime-deps /app/node_modules* ./node_modules
+# You should change "dist" to the directory where your build output is located.
 COPY --chown=nonroot:nonroot --from=builder /app/dist ./dist
 
 USER nonroot:nonroot
