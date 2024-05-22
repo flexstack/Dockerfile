@@ -8,13 +8,16 @@ ARG VERSION=lts
 FROM node:${VERSION}-slim AS base
 # Enables pnpm and yarn
 RUN corepack enable
+WORKDIR /app
+COPY bun.lockb* ./
+RUN if [ -f bun.lockb ]; then npm install -g bun; fi
 
 
 # Install the necessary dependencies for the application. This is done in a separate
 # stage so that the dependencies are cached and not re-installed on every build.
 FROM base AS deps
 WORKDIR /app
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* bun.lockb* ./
 
 # Set the NPM_MIRROR build argument to use a custom npm registry mirror.
 ARG NPM_MIRROR=
@@ -22,6 +25,7 @@ RUN if [ ! -z "${NPM_MIRROR}" ]; then npm config set registry ${NPM_MIRROR}; fi
 RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
   elif [ -f pnpm-lock.yaml ]; then pnpm i --frozen-lockfile; \
+  elif [ -f bun.lockb ]; then bun install; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
