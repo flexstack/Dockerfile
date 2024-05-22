@@ -43,7 +43,6 @@ The following Dockerfiles are available in this repository:
 If you have a Dockerfile that you would like to contribute, please feel free to open a pull request. We welcome contributions for any programming language or framework, as long as they follow the guidelines below:
 
 - Should be well-commented and easy to understand.
-- Should be as minimal as possible, while still being functional.
 - Should follow best practices for security (non-root user, etc.), performance (cached stages), and maintainability.
 - Should be tested and working with the latest version of the language or framework.
 - Should use multi-stage builds where appropriate.
