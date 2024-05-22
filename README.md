@@ -20,7 +20,8 @@ We hope you find them useful! If you have any suggestions or improvements, pleas
 ## Usage
 
 Each Dockerfile in this repository is designed to be a starting point for your own projects. They are intended to be copied and modified
-to suit your specific requirements. To use a Dockerfile, simply copy it into your project directory and build it using the `docker build` command.
+to suit your specific requirements, for example replacing build scripts and start commads. To use a Dockerfile, simply copy it into your project 
+directory and build it using the `docker build` command.
 
 For example, to build the `nodejs.Dockerfile`:
 
