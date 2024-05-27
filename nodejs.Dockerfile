@@ -62,7 +62,8 @@ WORKDIR /app
 
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size. 
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
-RUN apt-get update && apt-get install -y --no-install-recommends wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
+RUN apt-get update && apt-get install -y --no-install-recommends wget ca-certificates && apt-get clean && rm -f /var/lib/apt/lists/*_*
+RUN update-ca-certificates 2>/dev/null || true
 # Use a non-root user to run the application. This is a security best practice.
 RUN addgroup --system nonroot && adduser --disabled-login --ingroup nonroot nonroot
 # Give the non-root user ownership of the application directory and corepack cache
