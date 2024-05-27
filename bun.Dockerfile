@@ -29,12 +29,9 @@ RUN bun build index.ts --outfile dist/index.js
 # the application code and the runtime dependencies from the previous stages.
 FROM oven/bun:${VERSION}-slim AS runtime
 WORKDIR /app
-# Install ca-certificates to allow the application to make HTTPS requests
-RUN apk --update --no-cache add ca-certificates \
-  && update-ca-certificates 2>/dev/null || true
 # Install wget to allow health checks on the container. Then clean up the apt cache to reduce the image size.
 # e.g. `wget -nv -t1 --spider 'http://localhost:8080/health' || exit 1`
-RUN apk add --no-cache wget && rm -rf /var/cache/apk/*
+RUN apt-get update && apt-get install -y --no-install-recommends wget && apt-get clean && rm -f /var/lib/apt/lists/*_*
 RUN addgroup --system nonroot && adduser --system --ingroup nonroot nonroot
 RUN chown -R nonroot:nonroot /app
 
