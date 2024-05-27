@@ -27,7 +27,7 @@ RUN bun build index.ts --outfile dist/index.js
 
 # This stage creates the final image that will be used in production. It copies
 # the application code and the runtime dependencies from the previous stages.
-FROM oven/bun:${VERSION}-alpine AS runtime
+FROM oven/bun:${VERSION}-slim AS runtime
 WORKDIR /app
 # Install ca-certificates to allow the application to make HTTPS requests
 RUN apk --update --no-cache add ca-certificates \
